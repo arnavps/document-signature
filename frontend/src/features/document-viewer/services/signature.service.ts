@@ -10,6 +10,7 @@ interface PlaceSignatureData {
     width: number;
     height: number;
     page_number: number;
+    signature_image_url?: string;
 }
 
 export const signatureService = {

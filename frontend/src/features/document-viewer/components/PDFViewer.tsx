@@ -140,6 +140,7 @@ export const PDFViewer = ({
                                                     width={sig.width}
                                                     height={sig.height}
                                                     isActive={activeSignatureId === sig.index}
+                                                    signatureDataUrl={sig.signatureDataUrl}
                                                     onRemove={() => onSignatureRemove(sig.index)}
                                                     onClick={() => onSignatureSelect(sig.index)}
                                                 />

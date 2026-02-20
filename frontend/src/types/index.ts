@@ -51,4 +51,5 @@ export interface SignaturePosition {
     width: number;
     height: number;
     page: number;
+    signatureDataUrl?: string;
 }

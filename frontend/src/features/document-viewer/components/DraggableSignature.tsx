@@ -11,6 +11,7 @@ interface DraggableSignatureProps {
     width: number;
     height: number;
     isActive: boolean;
+    signatureDataUrl?: string;
     onRemove: () => void;
     onClick: () => void;
 }
@@ -23,6 +24,7 @@ export const DraggableSignature = ({
     width,
     height,
     isActive,
+    signatureDataUrl,
     onRemove,
     onClick,
 }: DraggableSignatureProps) => {
@@ -72,9 +74,20 @@ export const DraggableSignature = ({
                     <GripVertical className="w-6 h-6 text-primary-400" />
                 </div>
 
+                {/* Signature Image or Placeholder */}
+                {signatureDataUrl ? (
+                    <div className="absolute inset-0 p-2 flex items-center justify-center opacity-90 pointer-events-none">
+                        <img src={signatureDataUrl} alt="Signature" className="max-w-full max-h-full object-contain" />
+                    </div>
+                ) : (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <span className="text-sm font-medium text-gray-400">Click to Sign</span>
+                    </div>
+                )}
+
                 {/* Signature Label */}
-                <div className="absolute bottom-1 left-1 right-1 text-center">
-                    <span className="text-xs font-medium text-primary-600 bg-white px-2 py-0.5 rounded">
+                <div className="absolute bottom-1 left-1 right-1 text-center pointer-events-none">
+                    <span className="text-[10px] font-medium text-primary-600 bg-white/80 px-1.5 py-0.5 rounded backdrop-blur-sm">
                         Signature #{index + 1}
                     </span>
                 </div>

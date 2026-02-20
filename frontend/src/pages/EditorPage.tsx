@@ -13,6 +13,7 @@ import { ArrowLeft, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { usePDFRenderer } from '@/features/document-viewer/hooks/usePDFRenderer';
 import { useSignaturePlacement } from '@/features/document-viewer/hooks/useSignaturePlacement';
+import { SignatureModal } from '@/features/document-viewer/components/SignatureModal';
 
 export const EditorPage = () => {
     const { id } = useParams<{ id: string }>();
@@ -24,6 +25,8 @@ export const EditorPage = () => {
     const [docError, setDocError] = useState('');
     const [isSaving, setIsSaving] = useState(false);
     const [isFinalizing, setIsFinalizing] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [signingSignatureId, setSigningSignatureId] = useState<number | null>(null);
 
     // Initialize hooks here
     const {
@@ -73,6 +76,22 @@ export const EditorPage = () => {
         addSignatureHook(currentPage);
     };
 
+    const handleSignatureClick = (index: number | null) => {
+        setActiveSignatureId(index);
+        if (index !== null) {
+            setSigningSignatureId(index);
+            setIsModalOpen(true);
+        }
+    };
+
+    const handleSaveSignatureCanvas = (dataUrl: string) => {
+        if (signingSignatureId !== null) {
+            updateSignature(signingSignatureId, { signatureDataUrl: dataUrl });
+            setIsModalOpen(false);
+            setSigningSignatureId(null);
+        }
+    };
+
     const handleSave = async () => {
         if (!document || !user) return;
 
@@ -92,6 +111,7 @@ export const EditorPage = () => {
                     width: sig.width,
                     height: sig.height,
                     page_number: sig.page,
+                    signature_image_url: sig.signatureDataUrl,
                 });
             }
 
@@ -123,6 +143,7 @@ export const EditorPage = () => {
                     width: sig.width,
                     height: sig.height,
                     page_number: sig.page,
+                    signature_image_url: sig.signatureDataUrl,
                 });
             }
 
@@ -244,7 +265,7 @@ export const EditorPage = () => {
                         onDocumentLoadError={onDocumentLoadError}
                         onSignatureUpdate={updateSignature}
                         onSignatureRemove={removeSignature}
-                        onSignatureSelect={setActiveSignatureId}
+                        onSignatureSelect={handleSignatureClick}
                         loading={pdfLoading}
                         error={pdfError}
                     />
@@ -265,12 +286,22 @@ export const EditorPage = () => {
                     <ul className="text-sm text-blue-800 space-y-1">
                         <li>• Click "Add Signature" to place a signature box on the current page</li>
                         <li>• Drag the signature box to position it where you want</li>
+                        <li>• <strong>Click the signature box to sign it</strong></li>
                         <li>• Use zoom controls to adjust the view</li>
                         <li>• Click "Save Draft" to save your signature placements</li>
                         <li>• Click "Finalize & Download" to burn signatures into the PDF and download</li>
                     </ul>
                 </motion.div>
             </div>
+
+            <SignatureModal
+                isOpen={isModalOpen}
+                onClose={() => {
+                    setIsModalOpen(false);
+                    setSigningSignatureId(null);
+                }}
+                onSave={handleSaveSignatureCanvas}
+            />
         </Layout>
     );
 };
