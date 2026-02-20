@@ -22,7 +22,7 @@ export const SignatureModal = ({ isOpen, onClose, onSave }: SignatureModalProps)
             alert("Please provide a signature first.");
             return;
         }
-        const dataUrl = sigPad.current?.getTrimmedCanvas().toDataURL('image/png');
+        const dataUrl = sigPad.current?.getCanvas().toDataURL('image/png');
         if (dataUrl) {
             onSave(dataUrl);
         }
