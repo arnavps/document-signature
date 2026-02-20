@@ -111,15 +111,40 @@ export class SignatureService {
 
                 const { width: pageWidth, height: pageHeight } = page.getSize();
 
-                // Draw signature box (in production, you'd embed the actual signature image)
-                page.drawRectangle({
-                    x: sig.position_x,
-                    y: pageHeight - sig.position_y - sig.height,
-                    width: sig.width,
-                    height: sig.height,
-                    borderColor: rgb(0.89, 0.21, 0.21), // #E33636
-                    borderWidth: 2,
-                });
+                // If a signature image URL (base64) exists, embed it
+                if (sig.signature_image_url && sig.signature_image_url.startsWith('data:image/png;base64,')) {
+                    try {
+                        const imageBytes = sig.signature_image_url.split(',')[1];
+                        const pngImage = await pdfDoc.embedPng(imageBytes);
+
+                        page.drawImage(pngImage, {
+                            x: sig.position_x,
+                            y: pageHeight - sig.position_y - sig.height,
+                            width: sig.width,
+                            height: sig.height,
+                        });
+                    } catch (error) {
+                        logger.error('Failed to embed signature image:', error);
+                        // Fallback to text if image embedding fails
+                        page.drawRectangle({
+                            x: sig.position_x,
+                            y: pageHeight - sig.position_y - sig.height,
+                            width: sig.width,
+                            height: sig.height,
+                            borderColor: rgb(0.89, 0.21, 0.21), // #E33636
+                            borderWidth: 2,
+                        });
+                    }
+                } else {
+                    // Fallback: Draw signature box
+                    page.drawRectangle({
+                        x: sig.position_x,
+                        y: pageHeight - sig.position_y - sig.height,
+                        width: sig.width,
+                        height: sig.height,
+                        borderColor: rgb(0.89, 0.21, 0.21), // #E33636
+                    });
+                }
 
                 // Add signer name
                 page.drawText(sig.signer_name || sig.signer_email, {
@@ -190,7 +215,7 @@ export class SignatureService {
             });
 
             return updatedDoc;
-        } catch (error) {
+        } catch (error: any) {
             logger.error('Finalize signature error:', error);
             throw new Error('Failed to finalize signature');
         }

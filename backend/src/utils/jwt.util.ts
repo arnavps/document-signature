@@ -4,13 +4,13 @@ import { JWTPayload } from '../types';
 
 export const generateAccessToken = (payload: JWTPayload): string => {
     return jwt.sign(payload, config.jwt.accessSecret, {
-        expiresIn: config.jwt.accessExpiry,
+        expiresIn: config.jwt.accessExpiry as jwt.SignOptions['expiresIn'],
     });
 };
 
 export const generateRefreshToken = (payload: JWTPayload): string => {
     return jwt.sign(payload, config.jwt.refreshSecret, {
-        expiresIn: config.jwt.refreshExpiry,
+        expiresIn: config.jwt.refreshExpiry as jwt.SignOptions['expiresIn'],
     });
 };
 
