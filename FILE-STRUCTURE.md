@@ -76,6 +76,7 @@ document-signature-app/
     ├── 📄 index.html                     # HTML entry point
     ├── 📄 .env.example                   # Environment template
     ├── 📄 .gitignore                     # Git ignore rules
+    ├── 📄 vercel.json                    # Vercel SPA routing rules
     ├── 📄 README.md                      # Frontend documentation
     │
     └── 📁 src/
@@ -113,6 +114,7 @@ document-signature-app/
         │       │   ├── 📄 PDFViewer.tsx          # Main PDF viewer
         │       │   ├── 📄 DraggableSignature.tsx # Signature box
         │       │   ├── 📄 SignatureToolbar.tsx   # Editor toolbar
+        │       │   ├── 📄 SignatureModal.tsx     # Signature drawing canvas
         │       │   └── 📄 CoordinateMapper.ts    # Coordinate utility
         │       ├── 📁 hooks/
         │       │   ├── 📄 usePDFRenderer.ts      # PDF state

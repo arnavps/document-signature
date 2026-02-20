@@ -210,15 +210,18 @@ See [database-schema.sql](database-schema.sql) for complete schema.
 
 ### Backend (Railway, Render, Heroku)
 1. Push code to GitHub
-2. Connect repository to hosting platform
-3. Set environment variables
-4. Deploy
+2. Connect the repository to your hosting platform (make sure the Root Directory is set to the project root, not `/backend`)
+3. Set the Build Command to `npm run build`
+4. Set the Start Command to `npm run start` 
+5. Set environment variables
+6. Deploy
 
 ### Frontend (Vercel, Netlify)
 1. Push code to GitHub
-2. Connect repository to hosting platform
-3. Set `VITE_API_URL` environment variable
-4. Deploy
+2. Connect the `frontend` directory specifically to Vercel/Netlify.
+3. Vercel automatically detects Vite and React. The `vercel.json` handles SPA fallback routing.
+4. Set the `VITE_API_URL` environment variable to point to your backend deployed domain (`https://backend-url.com/api`)
+5. Deploy
 
 ### Environment Variables
 
@@ -253,7 +256,7 @@ VITE_API_URL=your_backend_url/api
 ## 📈 Future Enhancements
 
 ### Phase 4 (Optional)
-- [ ] Signature image upload/drawing
+- [x] Signature image upload/drawing
 - [ ] Signature text input
 - [ ] Resize signature boxes
 - [ ] Multiple signers (email invites)
