@@ -16,8 +16,20 @@ const app = express();
 
 // Security middleware
 app.use(helmet());
+
+const stripTrailingSlash = (url: string) => url.endsWith('/') ? url.slice(0, -1) : url;
+const allowedOrigin = stripTrailingSlash(config.cors.frontendUrl);
+
 app.use(cors({
-    origin: config.cors.frontendUrl,
+    origin: (origin, callback) => {
+        if (!origin) return callback(null, true);
+        const requestOrigin = stripTrailingSlash(origin);
+        if (requestOrigin === allowedOrigin || requestOrigin === 'http://localhost:5173') {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
 }));
 
