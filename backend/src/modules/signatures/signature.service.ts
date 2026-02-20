@@ -132,7 +132,23 @@ export class SignatureService {
                             width: sig.width,
                             height: sig.height,
                             borderColor: rgb(0.89, 0.21, 0.21), // #E33636
-                            borderWidth: 2,
+                        });
+
+                        // Add signer name
+                        page.drawText(sig.signer_name || sig.signer_email, {
+                            x: sig.position_x + 5,
+                            y: pageHeight - sig.position_y - sig.height / 2,
+                            size: 10,
+                            color: rgb(0, 0, 0),
+                        });
+
+                        // Add timestamp
+                        const timestamp = new Date().toLocaleString();
+                        page.drawText(`Signed: ${timestamp}`, {
+                            x: sig.position_x + 5,
+                            y: pageHeight - sig.position_y - sig.height / 2 - 15,
+                            size: 8,
+                            color: rgb(0.5, 0.5, 0.5),
                         });
                     }
                 } else {
@@ -144,24 +160,24 @@ export class SignatureService {
                         height: sig.height,
                         borderColor: rgb(0.89, 0.21, 0.21), // #E33636
                     });
+
+                    // Add signer name
+                    page.drawText(sig.signer_name || sig.signer_email, {
+                        x: sig.position_x + 5,
+                        y: pageHeight - sig.position_y - sig.height / 2,
+                        size: 10,
+                        color: rgb(0, 0, 0),
+                    });
+
+                    // Add timestamp
+                    const timestamp = new Date().toLocaleString();
+                    page.drawText(`Signed: ${timestamp}`, {
+                        x: sig.position_x + 5,
+                        y: pageHeight - sig.position_y - sig.height / 2 - 15,
+                        size: 8,
+                        color: rgb(0.5, 0.5, 0.5),
+                    });
                 }
-
-                // Add signer name
-                page.drawText(sig.signer_name || sig.signer_email, {
-                    x: sig.position_x + 5,
-                    y: pageHeight - sig.position_y - sig.height / 2,
-                    size: 10,
-                    color: rgb(0, 0, 0),
-                });
-
-                // Add timestamp
-                const timestamp = new Date().toLocaleString();
-                page.drawText(`Signed: ${timestamp}`, {
-                    x: sig.position_x + 5,
-                    y: pageHeight - sig.position_y - sig.height / 2 - 15,
-                    size: 8,
-                    color: rgb(0.5, 0.5, 0.5),
-                });
             }
 
             // Save modified PDF
