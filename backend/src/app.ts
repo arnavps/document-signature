@@ -10,6 +10,7 @@ import { errorHandler, notFoundHandler } from './middleware/error.middleware';
 import authRoutes from './modules/auth/auth.routes';
 import documentRoutes from './modules/documents/document.routes';
 import signatureRoutes from './modules/signatures/signature.routes';
+import path from 'path';
 
 const app = express();
 
@@ -49,6 +50,16 @@ app.use('/api/signatures', signatureRoutes);
 // Error handling
 app.use(notFoundHandler);
 app.use(errorHandler);
+
+// Serve frontend in production
+if (config.nodeEnv === 'production') {
+    const frontendPath = path.join(__dirname, '../../frontend/dist');
+    app.use(express.static(frontendPath));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(frontendPath, 'index.html'));
+    });
+}
 
 // Start server
 const PORT = config.port;
