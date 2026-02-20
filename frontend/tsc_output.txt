@@ -1,0 +1,8 @@
+﻿src/features/dashboard/components/RecentDocuments.tsx(1,21): error TS6133: 'useState' is declared but its value is never read.
+src/features/dashboard/components/RecentDocuments.tsx(3,1): error TS6133: 'Document' is declared but its value is never read.
+src/features/document-viewer/components/DraggableSignature.tsx(5,1): error TS6133: 'SIGNATURE_DEFAULTS' is declared but its value is never read.
+src/features/document-viewer/components/PDFViewer.tsx(8,10): error TS6133: 'motion' is declared but its value is never read.
+src/features/document-viewer/components/PDFViewer.tsx(35,9): error TS6133: 'addSignature' is declared but its value is never read.
+src/features/document-viewer/hooks/usePDFRenderer.ts(1,20): error TS6133: 'useEffect' is declared but its value is never read.
+src/features/document-viewer/hooks/usePDFRenderer.ts(13,32): error TS6133: 'fileUrl' is declared but its value is never read.
+src/pages/EditorPage.tsx(6,1): error TS6133: 'CoordinateMapper' is declared but its value is never read.
